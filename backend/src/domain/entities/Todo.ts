@@ -1,3 +1,5 @@
+import { BusinessRuleError } from '../errors/AppErrors';
+
 // Todo 介面定義
 export interface Todo {
   id: string;
@@ -27,15 +29,15 @@ export class TodoEntity {
   }): TodoEntity {
     // 業務規則驗證
     if (!params.title || params.title.trim().length === 0) {
-      throw new Error('Title cannot be empty');
+      throw new BusinessRuleError('Title cannot be empty');
     }
 
     if (params.title.length > 200) {
-      throw new Error('Title must not exceed 200 characters');
+      throw new BusinessRuleError('Title must not exceed 200 characters');
     }
 
     if (params.description.length > 1000) {
-      throw new Error('Description must not exceed 1000 characters');
+      throw new BusinessRuleError('Description must not exceed 1000 characters');
     }
 
     return new TodoEntity(

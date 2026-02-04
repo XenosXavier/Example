@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { todoController } from '../../di/container';
 import { validateRequest } from '../middleware/validateRequest';
+import { validateUuid } from '../middleware/validateUuid';
 import { CreateTodoSchema } from '../dto/CreateTodoDto';
 import { UpdateTodoSchema } from '../dto/UpdateTodoDto';
 
@@ -13,9 +14,9 @@ router.get('/todos', todoController.getAllTodos);
 router.post('/todos', validateRequest(CreateTodoSchema), todoController.createTodo);
 
 // PUT /api/todos/:id - 更新 todo
-router.put('/todos/:id', validateRequest(UpdateTodoSchema), todoController.updateTodo);
+router.put('/todos/:id', validateUuid(), validateRequest(UpdateTodoSchema), todoController.updateTodo);
 
 // DELETE /api/todos/:id - 刪除 todo
-router.delete('/todos/:id', todoController.deleteTodo);
+router.delete('/todos/:id', validateUuid(), todoController.deleteTodo);
 
 export default router;

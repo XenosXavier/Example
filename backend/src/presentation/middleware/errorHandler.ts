@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { ZodError } from 'zod';
+import { AppError } from '../../domain/errors/AppErrors';
 
 /**
  * 全域錯誤處理中介層
@@ -23,22 +24,9 @@ export const errorHandler = (
     });
   }
 
-  // 業務邏輯錯誤（從 Use Cases 拋出）
-  if (err.message === 'Todo not found') {
-    return res.status(404).json({
-      success: false,
-      message: err.message,
-    });
-  }
-
-  // Domain 層的業務規則錯誤
-  if (
-    err.message.includes('Title') ||
-    err.message.includes('Description') ||
-    err.message.includes('cannot be empty') ||
-    err.message.includes('must not exceed')
-  ) {
-    return res.status(400).json({
+  // 自定義應用錯誤（NotFoundError, ValidationError, BusinessRuleError）
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({
       success: false,
       message: err.message,
     });

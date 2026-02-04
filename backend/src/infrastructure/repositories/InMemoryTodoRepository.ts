@@ -42,10 +42,12 @@ export class InMemoryTodoRepository implements ITodoRepository {
       return null;
     }
 
-    // 更新 todo（合併更新的欄位）
+    // 更新 todo（僅允許更新 title 和 description，保護 id 和 createdTime）
     this.todos[index] = {
       ...this.todos[index],
-      ...updates,
+      title: updates.title ?? this.todos[index].title,
+      description: updates.description ?? this.todos[index].description,
+      // id 和 createdTime 保持不變
     };
 
     return { ...this.todos[index] };

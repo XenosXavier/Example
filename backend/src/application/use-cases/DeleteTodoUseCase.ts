@@ -1,4 +1,5 @@
 import type { ITodoRepository } from '../../domain/repositories/ITodoRepository';
+import { NotFoundError } from '../../domain/errors/AppErrors';
 
 /**
  * 刪除 Todo Use Case
@@ -10,7 +11,7 @@ export class DeleteTodoUseCase {
     // 檢查 todo 是否存在
     const todo = await this.todoRepository.findById(id);
     if (!todo) {
-      throw new Error('Todo not found');
+      throw new NotFoundError('Todo');
     }
 
     // 刪除 todo

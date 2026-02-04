@@ -1,6 +1,7 @@
 import type { ITodoRepository } from '../../domain/repositories/ITodoRepository';
 import { TodoEntity } from '../../domain/entities/Todo';
 import type { Todo } from '../../domain/entities/Todo';
+import { NotFoundError } from '../../domain/errors/AppErrors';
 
 /**
  * 更新 Todo 請求資料
@@ -20,7 +21,7 @@ export class UpdateTodoUseCase {
     // 檢查 todo 是否存在
     const existingTodo = await this.todoRepository.findById(id);
     if (!existingTodo) {
-      throw new Error('Todo not found');
+      throw new NotFoundError('Todo');
     }
 
     // 使用 TodoEntity 驗證業務規則
@@ -38,7 +39,7 @@ export class UpdateTodoUseCase {
     });
 
     if (!updatedTodo) {
-      throw new Error('Failed to update todo');
+      throw new NotFoundError('Todo');
     }
 
     return updatedTodo;
