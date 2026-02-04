@@ -21,7 +21,7 @@ export class TodoController {
   /**
    * GET /api/todos - 取得所有 todos
    */
-  getAllTodos = asyncHandler(async (req: Request, res: Response) => {
+  getAllTodos = asyncHandler(async (_req: Request, res: Response) => {
     const todos = await this.getAllTodosUseCase.execute();
     return ResponseHelper.success(res, todos);
   });

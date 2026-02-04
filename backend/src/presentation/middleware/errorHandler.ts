@@ -8,9 +8,9 @@ import { AppError } from '../../domain/errors/AppErrors';
  */
 export const errorHandler = (
   err: Error,
-  req: Request,
+  _req: Request,
   res: Response,
-  next: NextFunction
+  _next: NextFunction
 ) => {
   // Zod 驗證錯誤
   if (err instanceof ZodError) {

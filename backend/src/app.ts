@@ -2,10 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import todoRoutes from './presentation/routes/todoRoutes';
 import { errorHandler } from './presentation/middleware/errorHandler';
+import { requestLogger } from './presentation/middleware/requestLogger';
 
 const app = express();
 
 // === Middleware ===
+// 請求日誌（必須放在最前面）
+app.use(requestLogger);
+
 // CORS - 允許前端跨域請求
 app.use(
   cors({
@@ -21,7 +25,7 @@ app.use(express.json());
 app.use('/api', todoRoutes);
 
 // === 404 處理 ===
-app.use((req, res) => {
+app.use((_req, res) => {
   res.status(404).json({
     success: false,
     message: 'Route not found',

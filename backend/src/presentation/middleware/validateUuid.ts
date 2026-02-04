@@ -23,6 +23,6 @@ export const validateUuid = (paramName: string = 'id') => {
       });
     }
 
-    next();
+    return next();
   };
 };
